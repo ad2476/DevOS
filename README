@@ -1,0 +1,13 @@
+This is a learning project for me. There will most likely be no complete or final version of the OS. The purpose of the project is for me to better understand assembly, bootstrap and kernel development, and the inner workings of computers.
+
+However, if you are really that interested in seeing DevOS in action, no pun intended ("inaction" heh.), follow the steps below.
+
+COMPILATION AND INSTALLATION (On linux):
+1. Download repository
+2. READ OVER THE MAKEFILE. Ensure that dd is copying to the right device. The makefile is designed to install DevOS on a usb flash drive located at /dev/sdb. MAKE SURE YOU CHANGE IT TO MATCH YOUR SET-UP. Improper use of dd can result in make happily replacing your entire hard disk with DevOS.
+3. Format /dev/sdb (or whatever your setup is) to FAT16. BE SURE TO DOUBLE-CHECK EVERYTHING.
+3. Run make then make install.
+4. Reboot and select "Boot from usb"
+5. Enjoy...?
+
+DISCLAIMER: DevOS comes with absolutely no guarantee. It quite possibly may end up destroying your computer if installed incorrectly. Even if installed correctly, it is possible that DevOS can corrupt data or even damage hardware. 
