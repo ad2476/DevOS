@@ -5,9 +5,17 @@ However, if you are really that interested in seeing DevOS in action, no pun int
 COMPILATION AND INSTALLATION (On linux):
 1. Download repository
 2. READ OVER THE MAKEFILE. Ensure that dd is copying to the right device. The makefile is designed to install DevOS on a usb flash drive located at /dev/sdb. MAKE SURE YOU CHANGE IT TO MATCH YOUR SET-UP. Improper use of dd can result in make happily replacing your entire hard disk with DevOS.
-3. Format /dev/sdb (or whatever your setup is) to FAT16. BE SURE TO DOUBLE-CHECK EVERYTHING.
-3. Run make then make install.
-4. Reboot and select "Boot from usb"
-5. Enjoy...?
+3. Alternatively, run in bochs (see below)
+
+Compilation:
+1. Run 'make'. This will compile the binaries.
+2. If using bochs, subsequently run 'make img'. This will make a virtual floppy image for bochs to use
+
+Installation on physical media:
+1. Open up the makefile, and find the target 'disk'
+2. Replace /dev/sdb with the mount point of your media
+3. DOUBLE-CHECK THE COMMANDS AND MAKE SURE YOU KNOW WHAT YOU'RE DOING. dd will happily overwrite your main partition if you're not careful
+
+NOTE: DevOS is not functional, and as of now, does not even work properly.
 
 DISCLAIMER: DevOS comes with absolutely no guarantee. It quite possibly may end up destroying your computer if installed incorrectly. Even if installed correctly, it is possible that DevOS can corrupt data or even damage hardware. 
