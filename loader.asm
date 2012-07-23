@@ -6,14 +6,14 @@ jmp start
 hang: jmp hang
 
 Reset1:
-	; If it takes more than 16 tries to reset floppy, assume failure:
+	; If it takes more than 20 tries to reset floppy, assume failure:
 	; This will be stored 
 	mov cx, 0x00
 	push cx
 
 Reset:
 	pop cx
-	cmp cx, 0x0010
+	cmp cx, 0x0014
 	je ReadErr
 	push cx
 	
@@ -43,7 +43,7 @@ Reset:
 
 Read_Sector:
 	pop cx ; Fetch the no. tries off the stack
-	cmp cx, 0x0040
+	cmp cx, 0x0014
 	je ReadErr ; If 20 tries, problem
 	push cx ; Put back the value so we don't lose it
 	
@@ -88,11 +88,22 @@ Success:
 	
 	jmp 0x0800:0000 ; jump to the location of loaded sector and execute
 
+ResetErr:
+	mov si, CRLF
+	call Print
+	mov si, ResetErrMSG
+	call Print
+	
+	mov ah, 0x0
+	int 0x16
+	
+	int 0x18
+	jmp hang
+
 ReadErr:
 	mov si, CRLF       ; There won't be a CR/LF after the dots
 	call Print
 	mov si, ReadErrMSG ; mov the error msg into si
-	mov bx, 0x000E     ; Make the error msg yellow
 	call Print
 	
 	mov ah, 0x0        ; Wait for user input
@@ -105,7 +116,6 @@ InvErr:
 	mov si, CRLF
 	call Print
 	mov si, InvErrMSG
-	mov bx, 0x000E     ; Make the error msg yellow
 	call Print
 	
 	mov ah, 0x0        ; Wait for user input
@@ -145,6 +155,7 @@ start:
 	jmp Reset1
 	
 ResetMSG db "Resetting floppy", 0
+ResetErrMSG db "HANG: Error resetting floppy!", 0x0D, 0x0A, 0
 ReadErrMSG db "HANG: Error reading sectors!", 0x0D, 0x0A, 0
 InvErrMSG db "HANG: Invalid code at Sector 2!", 0x0D, 0x0A, 0
 SuccMSG db "Loading stage2 kernel...", 0x0D, 0x0A, 0
