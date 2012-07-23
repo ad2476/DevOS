@@ -31,7 +31,7 @@ Reset:
 	push cx
 	jc Reset
 	
-	; If it takes more than 16 tries to read sector, assume failure:
+	; If it takes more than 20 tries to read sector, assume failure:
 	; This will be stored 
 	mov cx, 0x00
 	push cx
@@ -89,19 +89,19 @@ Success:
 	jmp 0x0800:0000 ; jump to the location of loaded sector and execute
 
 ReadErr:
-	mov si, CRLF   ; There won't be a CR/LF after the dots
+	mov si, CRLF       ; There won't be a CR/LF after the dots
 	call Print
 	mov si, ReadErrMSG ; mov the error msg into si
-	mov bx, 0x000E   ; Make the error msg yellow
+	mov bx, 0x000E     ; Make the error msg yellow
 	call Print
-	int 0x18       ; Execute BASIC in ROM
+	int 0x18           ; Execute BASIC in ROM
 	jmp hang
 
 InvErr:
 	mov si, CRLF
 	call Print
 	mov si, InvErrMSG
-	mov bx, 0x000E
+	mov bx, 0x000E     ; Make the error msg yellow
 	call Print
 	int 0x18
 	jmp hang
@@ -122,8 +122,8 @@ start:
 	mov es, ax
 	
 	cli
-	mov ss, ax ; Stack starts at this segment
-	mov sp, 0x9C00
+	mov ss, ax      ; Stack starts at segment 0x0 (relative to 0x7C00)
+	mov sp, 0x9C00  ; Offset 0x9C00 (SS:SP)
 	sti
 	
 	mov si, ResetMSG
