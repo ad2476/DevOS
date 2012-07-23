@@ -9,12 +9,14 @@ COMPILATION AND INSTALLATION (On linux):
 
 Compilation:
 1. Run 'make'. This will compile the binaries.
-2. If using bochs, subsequently run 'make img'. This will make a virtual floppy image for bochs to use
+2. Run 'make img' to create the virtual image. Bochs will directly use this image, and 'make disk' copies it to disk.
+Note: If you see "rm: cannot remove `DevOS.img': No such file or directory", just 'touch DevOS.img' and try again.
 
 Installation on physical media:
 1. Open up the makefile, and find the target 'disk'
 2. Replace /dev/sdb with the mount point of your media
 3. DOUBLE-CHECK THE COMMANDS AND MAKE SURE YOU KNOW WHAT YOU'RE DOING. dd will happily overwrite your main partition if you're not careful
+4. Run 'make disk'. This requires sudo privileges.
 
 NOTE: DevOS is not functional, but as of the latest commit, works fine in bochs.
 
