@@ -16,6 +16,6 @@ Installation on physical media:
 2. Replace /dev/sdb with the mount point of your media
 3. DOUBLE-CHECK THE COMMANDS AND MAKE SURE YOU KNOW WHAT YOU'RE DOING. dd will happily overwrite your main partition if you're not careful
 
-NOTE: DevOS is not functional, and as of now, does not even work properly.
+NOTE: DevOS is not functional, but as of the latest commit, works fine in bochs.
 
 DISCLAIMER: DevOS comes with absolutely no guarantee. It quite possibly may end up destroying your computer if installed incorrectly. Even if installed correctly, it is possible that DevOS can corrupt data or even damage hardware. 
