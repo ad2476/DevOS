@@ -82,7 +82,11 @@ Success:
 	mov si, SuccMSG ; mov success msg into si
 	call Print
 	
-	jmp 0x0800:0x0000 ; jump to the location of loaded sector and execute
+	mov bx, [0x81FF] ; All DevOS bootable sectors must end
+	cmp bx, 0xAA     ; with 0xAA
+	jne InvErr
+	
+	jmp 0x0800:0000 ; jump to the location of loaded sector and execute
 
 ReadErr:
 	mov si, CRLF   ; There won't be a CR/LF after the dots
@@ -136,33 +140,3 @@ CRLF db 0x0D, 0x0A, 0
 
 times 510-($-$$) db 0
 dw 0xAA55
-
-; ---- Sector 2 ---- ;
-
-jmp main
-
-main:
-	mov ax, cs
-	mov ds, ax
-	mov es, ax
-	
-	cli
-	mov ss, ax
-	mov sp, 0x9C00
-	sti
-	
-	mov si, msg
-	call Print
-	
-	mov si, ShutdownMSG
-	call Print
-	
-	cli
-	hlt
-
-msg db "Welcome to DevOS!", 0x0D, 0x0A, 0
-ShutdownMSG db "Press any key to halt." , 0x0D, 0x0A, 0
-
-times 1023-($-$$) db 0
-
-db 0x60  ; For DevOS, any executable sectors must end with this
