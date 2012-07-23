@@ -13,6 +13,7 @@ Reset1:
 
 Reset:
 	pop cx
+	pop dx
 	cmp cx, 0x0014
 	je ReadErr
 	push cx
@@ -23,13 +24,15 @@ Reset:
 	int 0x10
 	
 	mov ah, 0x00
-	mov dl, 0x00
 	int 0x13
 	
 	pop cx
 	inc cx
+	push dx
 	push cx
 	jc Reset
+	
+	pop cx
 	
 	; If it takes more than 20 tries to read sector, assume failure:
 	; This will be stored 
@@ -43,6 +46,7 @@ Reset:
 
 Read_Sector:
 	pop cx ; Fetch the no. tries off the stack
+	pop dx ; Fetch the drive no. off the stack too (for int 0x13)
 	cmp cx, 0x0014
 	je ReadErr ; If 20 tries, problem
 	push cx ; Put back the value so we don't lose it
@@ -64,15 +68,15 @@ Read_Sector:
 	mov ch, 0x00 ; Track 0
 	mov cl, 0x02 ; Second sector
 	mov dh, 0x00 ; Head 0
-	mov dl, 0x00 ; Drive 0
 	
 	int 0x13
 	jnc Success
 	
-	pop es
+	pop es       ; es is on top of cx, so pop it off (we don't need it)
 	pop cx       ; Get back the no. tries
 	inc cx       ; No. tries has increased
-	push cx      ; Put it back on the stack
+	push dx      ; dx needs to be on the bottom of the stack
+	push cx      ; cx needs to be on the top of the stack
 	jmp Read_Sector
 	
 Success:
@@ -148,6 +152,8 @@ start:
 	mov ss, ax      ; Stack starts at segment 0x0 (relative to 0x7C00)
 	mov sp, 0x9C00  ; Offset 0x9C00 (SS:SP)
 	sti
+	
+	push dx
 	
 	mov si, ResetMSG
 	call Print
