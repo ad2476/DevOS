@@ -11,6 +11,4 @@ img: clean
 	dd if=stage2.bin of=DevOS.img seek=1 obs=512 count=1
 
 disk:	
-	sudo mkfs -t msdos -I /dev/sdb 1440
-	sudo dd if=loader.bin of=/dev/sdb bs=512 count=1
-	sudo dd if=stage2.bin of=/dev/sdb seek=1 obs=512 count=1
+	sudo dd if=DevOS.img of=/dev/sdb count=1
