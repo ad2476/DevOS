@@ -94,6 +94,10 @@ ReadErr:
 	mov si, ReadErrMSG ; mov the error msg into si
 	mov bx, 0x000E     ; Make the error msg yellow
 	call Print
+	
+	mov ah, 0x0        ; Wait for user input
+	int 0x16
+	
 	int 0x18           ; Execute BASIC in ROM
 	jmp hang
 
@@ -103,6 +107,10 @@ InvErr:
 	mov si, InvErrMSG
 	mov bx, 0x000E     ; Make the error msg yellow
 	call Print
+	
+	mov ah, 0x0        ; Wait for user input
+	int 0x16
+	
 	int 0x18
 	jmp hang
 
@@ -115,6 +123,11 @@ Print:
 	jmp Print
 
 printdone: ret
+
+setvideomode:
+	mov ah, 0x00
+	mov al, 0x13
+	int 0x10
 
 start:
 	xor ax, ax
