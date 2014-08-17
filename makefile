@@ -3,7 +3,7 @@ all:
 	nasm -f bin loader.asm -o loader.bin
 
 clean:
-	rm DevOS.img
+	rm -f DevOS.img
 
 img: clean
 	mkfs -t msdos -C DevOS.img 1440
