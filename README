@@ -10,6 +10,7 @@ COMPILATION AND INSTALLATION (On linux):
 Compilation:
 1. Run 'make'. This will compile the binaries.
 2. Run 'make img' to create the virtual image. Bochs will directly use this image, and 'make disk' copies it to disk.
+	-- Note: Make sure to specify the device name under the 'disk' target in the makefile
 
 Installation on physical media:
 1. Open up the makefile, and find the target 'disk'
