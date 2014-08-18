@@ -11,4 +11,4 @@ img: clean
 	dd if=loader.bin of=DevOS.img seek=1 obs=512 count=1
 
 disk:	
-	sudo dd if=DevOS.img of=/dev/sdb count=1
+	sudo dd if=DevOS.img of=/dev/sdX count=1
