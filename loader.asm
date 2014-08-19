@@ -15,7 +15,7 @@ Reset:
 	pop cx
 	pop dx
 	cmp cx, 0x0014
-	je ReadErr
+	je hop1
 	push cx
 	
 	mov ah, 0x0E
@@ -43,6 +43,9 @@ Reset:
 	call Print
 	mov si, ProgMSG
 	call Print
+
+hop1:
+	jmp hop2
 
 Read_Sector:
 	pop cx ; Fetch the no. tries off the stack
@@ -79,6 +82,9 @@ Read_Sector:
 	push cx      ; cx needs to be on the top of the stack
 	jmp Read_Sector
 	
+hop2:
+	jmp ReadErr
+
 Success:
 	pop es
 	mov si, CRLF
